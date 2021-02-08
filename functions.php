@@ -51,4 +51,15 @@ function auth($email, $password) {
 	return false;
 }
 
+function get_all_users() {
+	$db = new PDO("mysql:host=localhost; dbname=dive_project", "mad", "");
+
+	$query = "SELECT * FROM users";
+
+	$statement = $db->prepare($query);
+	$statement->execute();
+	$users = $statement->fetchAll(PDO::FETCH_ASSOC);
+	return $users;
+}
+
 ?>
