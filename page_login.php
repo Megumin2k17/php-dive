@@ -1,5 +1,7 @@
 <?php session_start(); ?>
+
 <?php include 'functions.php'; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,18 +40,18 @@
             <?php if(isset($_SESSION['messages'])): ?>            
                 <?php display_flash_messages(); ?>            
             <?php endif; ?>
-            <form action="">
+            <form action="login.php" method="POST">
                 <div class="form-group">
                     <label class="form-label" for="username">Email</label>
-                    <input type="email" id="username" class="form-control" placeholder="Эл. адрес" value="">
+                    <input name="email" type="email" id="username" class="form-control" placeholder="Эл. адрес" value="<?php echo $_COOKIE['email']; ?>">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="password">Пароль</label>
-                    <input type="password" id="password" class="form-control" placeholder="" >
+                    <input name="password" type="password" id="password" class="form-control" placeholder="" >
                 </div>
                 <div class="form-group text-left">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="rememberme">
+                    <div class="custom-control custom-checkbox">                        
+                        <input name="rememberme" type="checkbox" class="custom-control-input" id="rememberme">                      
                         <label class="custom-control-label" for="rememberme">Запомнить меня</label>
                     </div>
                 </div>
@@ -57,7 +59,7 @@
             </form>
         </div>
         <div class="blankpage-footer text-center">
-            Нет аккаунта? <a href="page_register.html"><strong>Зарегистрироваться</strong>
+            Нет аккаунта? <a href="page_register.php"><strong>Зарегистрироваться</strong>
         </div>
     </div>
     <video poster="img/backgrounds/clouds.png" id="bgvid" playsinline autoplay muted loop>

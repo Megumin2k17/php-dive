@@ -41,5 +41,14 @@ function redirect($path) {
 	header("location: $path");
 }
 
+function auth($email, $password) {
+	$user = get_user_by_email($email);
+	if($user['password'] === $password) {
+
+		$_SESSION['user'] = $user;
+		return true;
+	}		
+	return false;
+}
 
 ?>

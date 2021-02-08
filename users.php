@@ -1,3 +1,6 @@
+<?php session_start(); ?>
+<?php include 'functions.php'; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,9 +37,9 @@
         </nav>
 
         <main id="js-page-content" role="main" class="page-content mt-3">
-            <div class="alert alert-success">
-                Профиль успешно обновлен.
-            </div>
+            <?php if(isset($_SESSION['messages'])): ?>            
+                <?php display_flash_messages(); ?>            
+            <?php endif; ?>
             <div class="subheader">
                 <h1 class="subheader-title">
                     <i class='subheader-icon fal fa-users'></i> Список пользователей
