@@ -110,7 +110,7 @@ $users = get_all_users();
                                         <a class="dropdown-item" href="page_edit_user.php?id=<?php echo $user['id']; ?>">
                                             <i class="fa fa-edit"></i>
                                         Редактировать</a>
-                                        <a class="dropdown-item" href="security.php?id=<?php echo $user['id']; ?>">
+                                        <a class="dropdown-item" href="page_security.php?id=<?php echo $user['id']; ?>">
                                             <i class="fa fa-lock"></i>
                                         Безопасность</a>
                                         <a class="dropdown-item" href="status.php?id=<?php echo $user['id']; ?>">
@@ -124,8 +124,9 @@ $users = get_all_users();
                                             <i class="fa fa-window-close"></i>
                                             Удалить
                                         </a>
+                                        <?php endif; ?>
                                     </div>
-                                    <?php endif; ?>
+                                    
                                     <span class="text-truncate text-truncate-xl"><?php echo $user['job']; ?></span>
                                 </div>
                                 <button class="js-expand-btn btn btn-sm btn-default d-none" data-toggle="collapse" data-target="#c_1 > .card-body + .card-body" aria-expanded="false">

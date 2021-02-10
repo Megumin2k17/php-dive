@@ -4,6 +4,15 @@ const IS_ADMIN = "2";
 const IS_CASUAL = "0";
 $active_user = $_SESSION['user'];
 
+function edit_creadentials($user_id, $email, $password) {
+	
+	$db = new PDO("mysql:host=localhost; dbname=dive_project", "mad", "");
+
+	$query = "UPDATE users SET email=:email, password=:password, WHERE id=:id";
+
+	$statement = $db->prepare($query);
+	$statement->execute(['email' => $email, 'password' => $password, 'id'=>$user_id]);
+}
 
 function is_admin($active_user) {
 	return $active_user['role'] === IS_ADMIN;

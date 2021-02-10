@@ -1,3 +1,20 @@
+<?php 
+session_start();
+include 'functions.php';
+
+$user = get_user_by_id($_GET['id']);
+
+if(!isset($_SESSION['user'])) {  
+    set_flash_message('danger', 'Необходимо авторизоваться.');
+    redirect('page_login.php');
+    exit;
+} elseif(!is_admin($active_user) && !is_author($active_user['id'], $user['id'])) {
+    set_flash_message('danger', 'У вас недостаточно прав для редактирования этого пользователя.');
+    redirect('users.php');
+    exit;
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +35,7 @@
         <div class="collapse navbar-collapse" id="navbarColor02">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Главная <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="users.php">Главная <span class="sr-only">(current)</span></a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
@@ -38,31 +55,35 @@
             </h1>
 
         </div>
-        <form action="">
+        <form action="security.php?id=<?=$user['id'];?>" method="POST">
             <div class="row">
                 <div class="col-xl-6">
                     <div id="panel-1" class="panel">
                         <div class="panel-container">
                             <div class="panel-hdr">
-                                <h2>Обновление эл. адреса и пароля</h2>
+                                <h2>Обновление эл. адреса и пароля пользователя (<?=$user['id'];?>) <?=$user['name']; ?></h2>
+                               
                             </div>
+                            <?php if(isset($_SESSION['messages'])): ?>            
+                                    <?php display_flash_messages(); ?>            
+                            <?php endif; ?>
                             <div class="panel-content">
                                 <!-- email -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Email</label>
-                                    <input type="text" id="simpleinput" class="form-control" value="john@example.com">
+                                    <input name="name" type="text" id="simpleinput" class="form-control" value="<?= $user['email']; ?>">
                                 </div>
 
                                 <!-- password -->
                                 <div class="form-group">
-                                    <label class="form-label" for="simpleinput">Пароль</label>
-                                    <input type="password" id="simpleinput" class="form-control">
+                                    <label class="form-label" for="simpleinput">Новый пароль</label>
+                                    <input name="password" type="password" id="simpleinput" class="form-control">
                                 </div>
 
                                 <!-- password confirmation-->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Подтверждение пароля</label>
-                                    <input type="password" id="simpleinput" class="form-control">
+                                    <input name="confirm_password" type="password" id="simpleinput" class="form-control">
                                 </div>
 
 
