@@ -1,3 +1,24 @@
+<?php session_start(); ?>
+<?php include 'functions.php'; ?>
+<?php
+
+// $active_user = $_SESSION['user'];
+// var_dump($active_user); die;
+
+if(!isset($_SESSION['user'])) {  
+    set_flash_message('danger', 'Необходимо авторизоваться.');
+    redirect('page_login.php');
+    exit;
+} elseif($active_user['role']!==IS_ADMIN) {
+    set_flash_message('danger', 'Необходимо иметь права администратора.');
+    redirect('page_login.php');
+    exit;
+}
+
+// var_dump($_FILES); die;
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,10 +59,12 @@
                 <i class='subheader-icon fal fa-plus-circle'></i> Добавить пользователя
             </h1>
 
-
+            <?php if(isset($_SESSION['messages'])): ?>            
+                <?php display_flash_messages(); ?>            
+            <?php endif; ?>
 
         </div>
-        <form action="">
+        <form action="create_user.php" method="POST" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-xl-6">
                     <div id="panel-1" class="panel">
@@ -53,25 +76,25 @@
                                 <!-- username -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Имя</label>
-                                    <input type="text" id="simpleinput" class="form-control">
+                                    <input name="name" type="text" id="simpleinput" class="form-control">
                                 </div>
 
                                 <!-- title -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Место работы</label>
-                                    <input type="text" id="simpleinput" class="form-control">
+                                    <input name="job" type="text" id="simpleinput" class="form-control">
                                 </div>
 
                                 <!-- tel -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Номер телефона</label>
-                                    <input type="text" id="simpleinput" class="form-control">
+                                    <input name="phone" type="text" id="simpleinput" class="form-control">
                                 </div>
 
                                 <!-- address -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Адрес</label>
-                                    <input type="text" id="simpleinput" class="form-control">
+                                    <input name="address" type="text" id="simpleinput" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -88,13 +111,13 @@
                                 <!-- email -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Email</label>
-                                    <input type="text" id="simpleinput" class="form-control">
+                                    <input name="email" type="text" id="simpleinput" class="form-control">
                                 </div>
 
                                 <!-- password -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Пароль</label>
-                                    <input type="password" id="simpleinput" class="form-control">
+                                    <input name="password" type="password" id="simpleinput" class="form-control">
                                 </div>
 
                                 
@@ -110,7 +133,7 @@
 
                                 <div class="form-group">
                                     <label class="form-label" for="example-fileinput">Загрузить аватар</label>
-                                    <input type="file" id="example-fileinput" class="form-control-file">
+                                    <input name="avatar" type="file" id="example-fileinput" class="form-control-file">
                                 </div>
                             </div>
                         </div>
