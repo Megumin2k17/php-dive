@@ -1,16 +1,13 @@
-<?php include 'functions.php'; ?>
 <?php session_start(); ?>
+<?php include 'functions.php'; ?>
 <?php
-if(!isset($_SESSION['user'])) {  
-
+if(!isset($active_user)) {  
+    set_flash_message('danger', 'Необходимо авторизоваться.');
     redirect('page_login.php');
     exit;
 }
 
-const IS_ADMIN = "2";
-const IS_CASUAL = "0";
 
-$active_user = $_SESSION['user'];
 $users = get_all_users();
 
 ?>
@@ -70,7 +67,7 @@ $users = get_all_users();
             <?php if($active_user['role'] === IS_ADMIN): ?>
             <div class="row">
                 <div class="col-xl-12">
-                    <a class="btn btn-success" href="create_user.html">Добавить</a>
+                    <a class="btn btn-success" href="page_create_user.php">Добавить</a>
 
                     <div class="border-faded bg-faded p-3 mb-g d-flex mt-3">
                         <input type="text" id="js-filter-contacts" name="filter-contacts" class="form-control shadow-inset-2 form-control-lg" placeholder="Найти пользователя">
@@ -93,7 +90,7 @@ $users = get_all_users();
                         <div class="card-body border-faded border-top-0 border-left-0 border-right-0 rounded-top">
                             <div class="d-flex flex-row align-items-center">
                                 <span class="status status-success mr-3">
-                                    <span class="rounded-circle profile-image d-block " style="background-image:url('img/demo/avatars/avatar-b.png'); background-size: cover;"></span>
+                                    <span class="rounded-circle profile-image d-block " style="background-image:url('<?= $user['avatar'] ?>'); background-size: cover;"></span>
                                 </span>
                                 <div class="info-card-text flex-1">
                                     <a href="javascript:void(0);" class="fs-xl text-truncate text-truncate-lg text-info" data-toggle="dropdown" aria-expanded="false">
