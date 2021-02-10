@@ -102,16 +102,16 @@ $users = get_all_users();
                                     </a>
                                     <?php if($active_user['role'] === IS_ADMIN || $active_user['id'] === $user['id']): ?>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="edit.php?<?php echo $user['id']; ?>">
+                                        <a class="dropdown-item" href="page_edit_user.php?id=<?php echo $user['id']; ?>">
                                             <i class="fa fa-edit"></i>
                                         Редактировать</a>
-                                        <a class="dropdown-item" href="security.php?<?php echo $user['id']; ?>">
+                                        <a class="dropdown-item" href="security.php?id=<?php echo $user['id']; ?>">
                                             <i class="fa fa-lock"></i>
                                         Безопасность</a>
-                                        <a class="dropdown-item" href="status.php?<?php echo $user['id']; ?>">
+                                        <a class="dropdown-item" href="status.php?id=<?php echo $user['id']; ?>">
                                             <i class="fa fa-sun"></i>
                                         Установить статус</a>
-                                        <a class="dropdown-item" href="media.php?<?php echo $user['id']; ?>">
+                                        <a class="dropdown-item" href="media.php?id=<?php echo $user['id']; ?>">
                                             <i class="fa fa-camera"></i>
                                             Загрузить аватар
                                         </a>
@@ -121,7 +121,7 @@ $users = get_all_users();
                                         </a>
                                     </div>
                                     <?php endif; ?>
-                                    <span class="text-truncate text-truncate-xl">IT Director, Gotbootstrap Inc.</span>
+                                    <span class="text-truncate text-truncate-xl"><?php echo $user['job']; ?></span>
                                 </div>
                                 <button class="js-expand-btn btn btn-sm btn-default d-none" data-toggle="collapse" data-target="#c_1 > .card-body + .card-body" aria-expanded="false">
                                     <span class="collapsed-hidden">+</span>
@@ -132,11 +132,11 @@ $users = get_all_users();
                         <div class="card-body p-0 collapse show">
                             <div class="p-3">
                                 <a href="tel:+13174562564" class="mt-1 d-block fs-sm fw-400 text-dark">
-                                    <i class="fas fa-mobile-alt text-muted mr-2"></i> +1 317-456-2564</a>
+                                    <i class="fas fa-mobile-alt text-muted mr-2"></i> <?php echo $user['phone']; ?></a>
                                 <a href="mailto:oliver.kopyov@smartadminwebapp.com" class="mt-1 d-block fs-sm fw-400 text-dark">
                                     <i class="fas fa-mouse-pointer text-muted mr-2"></i><?php echo $user['email']; ?> | <?php echo $user['role']; ?></a>
                                 <address class="fs-sm fw-400 mt-4 text-muted">
-                                    <i class="fas fa-map-pin mr-2"></i> 15 Charist St, Detroit, MI, 48212, USA</address>
+                                    <i class="fas fa-map-pin mr-2"></i><?php echo $user['address']; ?></address>
                                 <div class="d-flex flex-row">
                                     <a href="javascript:void(0);" class="mr-2 fs-xxl" style="color:#4680C2">
                                         <i class="fab fa-vk"></i>

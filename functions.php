@@ -4,6 +4,15 @@ const IS_ADMIN = "2";
 const IS_CASUAL = "0";
 $active_user = $_SESSION['user'];
 
+
+function is_admin($active_user) {
+	return $active_user['role'] === IS_ADMIN;
+}
+function is_author($active_user_id, $edit_user_id) {
+	return $active_user_id === $edit_user_id;
+}
+
+
 function add_user($email, $password) {
 	$db = new PDO("mysql:host=localhost; dbname=dive_project", "mad", "");
 

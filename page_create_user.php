@@ -15,8 +15,6 @@ if(!isset($_SESSION['user'])) {
     exit;
 }
 
-// var_dump($_FILES); die;
-
 ?>
 
 <!DOCTYPE html>
@@ -58,11 +56,6 @@ if(!isset($_SESSION['user'])) {
             <h1 class="subheader-title">
                 <i class='subheader-icon fal fa-plus-circle'></i> Добавить пользователя
             </h1>
-
-            <?php if(isset($_SESSION['messages'])): ?>            
-                <?php display_flash_messages(); ?>            
-            <?php endif; ?>
-
         </div>
         <form action="create_user.php" method="POST" enctype="multipart/form-data">
             <div class="row">
@@ -71,6 +64,9 @@ if(!isset($_SESSION['user'])) {
                         <div class="panel-container">
                             <div class="panel-hdr">
                                 <h2>Общая информация</h2>
+                                <?php if(isset($_SESSION['messages'])): ?>            
+                                    <?php display_flash_messages(); ?>            
+                                <?php endif; ?>
                             </div>
                             <div class="panel-content">
                                 <!-- username -->
