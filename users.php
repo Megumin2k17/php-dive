@@ -88,13 +88,14 @@ $users = get_all_users();
                 <div class="col-xl-4">
                     <div id="c_1" class="card border shadow-0 mb-g shadow-sm-hover" data-filter-tags="oliver kopyov">
                         <div class="card-body border-faded border-top-0 border-left-0 border-right-0 rounded-top">
-                            <div class="d-flex flex-row align-items-center">
-                                <span class="status status-success mr-3">
+                            <div class="d-flex flex-row align-items-center">                                
+                                <span class="<?php show_status($user['status']); ?>">
                                     <span class="rounded-circle profile-image d-block " style="background-image:url('<?= $user['avatar'] ?>'); background-size: cover;"></span>
                                 </span>
                                 <div class="info-card-text flex-1">
                                     <a href="javascript:void(0);" class="fs-xl text-truncate text-truncate-lg text-info" data-toggle="dropdown" aria-expanded="false">
                                         <?php echo $user['name']; ?>
+
                                         <?php if($active_user['role'] === IS_ADMIN || $active_user['id'] === $user['id']): ?>
                                             <i class="fal fas fa-cog fa-fw d-inline-block ml-1 fs-md"></i>
                                            
@@ -113,7 +114,7 @@ $users = get_all_users();
                                         <a class="dropdown-item" href="page_security.php?id=<?php echo $user['id']; ?>">
                                             <i class="fa fa-lock"></i>
                                         Безопасность</a>
-                                        <a class="dropdown-item" href="status.php?id=<?php echo $user['id']; ?>">
+                                        <a class="dropdown-item" href="page_status.php?id=<?php echo $user['id']; ?>">
                                             <i class="fa fa-sun"></i>
                                         Установить статус</a>
                                         <a class="dropdown-item" href="media.php?id=<?php echo $user['id']; ?>">

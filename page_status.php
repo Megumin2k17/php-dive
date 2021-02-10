@@ -1,3 +1,20 @@
+<?php 
+session_start();
+include 'functions.php';
+
+$user = get_user_by_id($_GET['id']);
+
+if(!isset($_SESSION['user'])) {  
+    set_flash_message('danger', 'Необходимо авторизоваться.');
+    redirect('page_login.php');
+    exit;
+} elseif(!is_admin($active_user) && !is_author($active_user['id'], $user['id'])) {
+    set_flash_message('danger', 'У вас недостаточно прав для редактирования этого пользователя.');
+    redirect('users.php');
+    exit;
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,12 +35,12 @@
         <div class="collapse navbar-collapse" id="navbarColor02">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Главная <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="users.php">Главная <span class="sr-only">(current)</span></a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="page_login.html">Войти</a>
+                    <a class="nav-link" href="page_login.php">Войти</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Выйти</a>
@@ -38,7 +55,7 @@
             </h1>
 
         </div>
-        <form action="">
+        <form action="status.php?id=<?=$user['id'];?>" method="POST">
             <div class="row">
                 <div class="col-xl-6">
                     <div id="panel-1" class="panel">
@@ -52,10 +69,10 @@
                                         <!-- status -->
                                         <div class="form-group">
                                             <label class="form-label" for="example-select">Выберите статус</label>
-                                            <select class="form-control" id="example-select">
-                                                <option>Онлайн</option>
-                                                <option>Отошел</option>
-                                                <option>Не беспокоить</option>
+                                            <select name="status" class="form-control" id="example-select" >
+                                                <option <?php if($user['status'] === "Онлайн") {echo "selected";} ?> >Онлайн</option>
+                                                <option <?php if($user['status'] === "Отошел") {echo "selected";} ?> >Отошел</option>
+                                                <option <?php if($user['status'] === "Не беспокоить") {echo "selected";} ?>>Не беспокоить</option>
                                             </select>
                                         </div>
                                     </div>

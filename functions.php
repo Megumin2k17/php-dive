@@ -4,6 +4,18 @@ const IS_ADMIN = "2";
 const IS_CASUAL = "0";
 $active_user = $_SESSION['user'];
 
+function show_status($status) {
+	if($status==="Онлайн") {
+		echo "status status-success mr-3";
+	} elseif($status === "Отошел") {
+		echo "status status-warning mr-3";
+	} elseif ($status === "Не беспокоить") {
+		echo "status status-danger mr-3";
+	} else {
+		echo "status status-danger mr-3";
+	}
+}
+
 function edit_creadentials($user_id, $email, $password) {
 	
 	$db = new PDO("mysql:host=localhost; dbname=dive_project", "mad", "");
