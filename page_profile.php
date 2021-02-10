@@ -1,3 +1,16 @@
+<?php 
+session_start();
+include 'functions.php';
+
+$user = get_user_by_id($_GET['id']);
+
+if(!isset($_SESSION['user'])) {  
+    set_flash_message('danger', 'Необходимо авторизоваться.');
+    redirect('page_login.php');
+    exit;
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,12 +32,12 @@
             <div class="collapse navbar-collapse" id="navbarColor02">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item ">
-                        <a class="nav-link" href="#">Главная</a>
+                        <a class="nav-link" href="users.php">Главная</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Войти</a>
+                        <a class="nav-link" href="page_login.php">Войти</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Выйти</a>
@@ -35,7 +48,7 @@
         <main id="js-page-content" role="main" class="page-content mt-3">
             <div class="subheader">
                 <h1 class="subheader-title">
-                    <i class='subheader-icon fal fa-user'></i> Иван Иванов
+                    <i class='subheader-icon fal fa-user'></i> <?php echo $user['name']; ?>
                 </h1>
             </div>
             <div class="row">
@@ -45,10 +58,10 @@
                         <div class="row no-gutters row-grid">
                             <div class="col-12">
                                 <div class="d-flex flex-column align-items-center justify-content-center p-4">
-                                    <img src="img/demo/avatars/avatar-admin-lg.png" class="rounded-circle shadow-2 img-thumbnail" alt="">
+                                    <img src="<?php echo $user['avatar']; ?>" class="rounded-circle shadow-2 img-thumbnail" alt="">
                                     <h5 class="mb-0 fw-700 text-center mt-3">
-                                        Иван Иванов 
-                                        <small class="text-muted mb-0">Toronto, Canada</small>
+                                        <?php echo $user['name']; ?>
+                                        <small class="text-muted mb-0"><?php echo $user['job']; ?></small>
                                     </h5>
                                     <div class="mt-4 text-center demo">
                                         <a href="javascript:void(0);" class="fs-xl" style="color:#C13584">
@@ -66,11 +79,11 @@
                             <div class="col-12">
                                 <div class="p-3 text-center">
                                     <a href="tel:+13174562564" class="mt-1 d-block fs-sm fw-400 text-dark">
-                                        <i class="fas fa-mobile-alt text-muted mr-2"></i> +1 317-456-2564</a>
+                                        <i class="fas fa-mobile-alt text-muted mr-2"></i> <?php echo $user['phone']; ?></a>
                                     <a href="mailto:oliver.kopyov@marlin.ru" class="mt-1 d-block fs-sm fw-400 text-dark">
-                                        <i class="fas fa-mouse-pointer text-muted mr-2"></i> oliver.kopyov@marlin.ru</a>
+                                        <i class="fas fa-mouse-pointer text-muted mr-2"></i> <?php echo $user['email']; ?></a>
                                     <address class="fs-sm fw-400 mt-4 text-muted">
-                                        <i class="fas fa-map-pin mr-2"></i> Восточные Королевства, Штормград 15
+                                        <i class="fas fa-map-pin mr-2"></i> <?php echo $user['address']; ?>
                                     </address>
                                 </div>
                             </div>

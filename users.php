@@ -94,14 +94,19 @@ $users = get_all_users();
                                 </span>
                                 <div class="info-card-text flex-1">
                                     <a href="javascript:void(0);" class="fs-xl text-truncate text-truncate-lg text-info" data-toggle="dropdown" aria-expanded="false">
-                                        Oliver Kopyov
+                                        <?php echo $user['name']; ?>
                                         <?php if($active_user['role'] === IS_ADMIN || $active_user['id'] === $user['id']): ?>
                                             <i class="fal fas fa-cog fa-fw d-inline-block ml-1 fs-md"></i>
-                                            <i class="fal fa-angle-down d-inline-block ml-1 fs-md"></i>
+                                           
                                         <?php endif; ?>
+                                        <i class="fal fa-angle-down d-inline-block ml-1 fs-md"></i>
                                     </a>
-                                    <?php if($active_user['role'] === IS_ADMIN || $active_user['id'] === $user['id']): ?>
+                                  
                                     <div class="dropdown-menu">
+                                         <a class="dropdown-item" href="page_profile.php?id=<?php echo $user['id']; ?>">
+                                            <i class="fa fa-edit"></i>
+                                        Профиль</a>
+                                        <?php if($active_user['role'] === IS_ADMIN || $active_user['id'] === $user['id']): ?>
                                         <a class="dropdown-item" href="page_edit_user.php?id=<?php echo $user['id']; ?>">
                                             <i class="fa fa-edit"></i>
                                         Редактировать</a>
