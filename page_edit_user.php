@@ -57,7 +57,7 @@ if(!isset($_SESSION['user'])) {
             </h1>
 
         </div>
-        <form action="edit_user.php" method="POST">
+        <form action="edit_user.php?id=<?=$user['id'];?>" method="POST">
             <div class="row">
                 <div class="col-xl-6">
                     <div id="panel-1" class="panel">

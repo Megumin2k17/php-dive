@@ -90,7 +90,7 @@ $users = get_all_users();
                         <div class="card-body border-faded border-top-0 border-left-0 border-right-0 rounded-top">
                             <div class="d-flex flex-row align-items-center">                                
                                 <span class="<?php show_status($user['status']); ?>">
-                                    <span class="rounded-circle profile-image d-block " style="background-image:url('<?= $user['avatar'] ?>'); background-size: cover;"></span>
+                                    <span class="rounded-circle profile-image d-block " style="background-image:url('<?php show_avatar($user['id']); ?>'); background-size: cover;"></span>
                                 </span>
                                 <div class="info-card-text flex-1">
                                     <a href="javascript:void(0);" class="fs-xl text-truncate text-truncate-lg text-info" data-toggle="dropdown" aria-expanded="false">
@@ -117,7 +117,7 @@ $users = get_all_users();
                                         <a class="dropdown-item" href="page_status.php?id=<?php echo $user['id']; ?>">
                                             <i class="fa fa-sun"></i>
                                         Установить статус</a>
-                                        <a class="dropdown-item" href="media.php?id=<?php echo $user['id']; ?>">
+                                        <a class="dropdown-item" href="page_media.php?id=<?php echo $user['id']; ?>">
                                             <i class="fa fa-camera"></i>
                                             Загрузить аватар
                                         </a>

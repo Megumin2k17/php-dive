@@ -1,3 +1,20 @@
+<?php 
+session_start();
+include 'functions.php';
+
+$user = get_user_by_id($_GET['id']);
+
+if(!isset($_SESSION['user'])) {  
+    set_flash_message('danger', 'Необходимо авторизоваться.');
+    redirect('page_login.php');
+    exit;
+} elseif(!is_admin($active_user) && !is_author($active_user['id'], $user['id'])) {
+    set_flash_message('danger', 'У вас недостаточно прав для редактирования этого пользователя.');
+    redirect('users.php');
+    exit;
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +35,7 @@
         <div class="collapse navbar-collapse" id="navbarColor02">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Главная <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="users.php">Главная <span class="sr-only">(current)</span></a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
@@ -38,7 +55,7 @@
             </h1>
 
         </div>
-        <form action="">
+        <form action="media.php?id=<?=$user['id'];?>" method="POST" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-xl-6">
                     <div id="panel-1" class="panel">
@@ -46,14 +63,18 @@
                             <div class="panel-hdr">
                                 <h2>Текущий аватар</h2>
                             </div>
+                            <?php if(isset($_SESSION['messages'])): ?>            
+                                <?php display_flash_messages(); ?>            
+                            <?php endif; ?>
                             <div class="panel-content">
                                 <div class="form-group">
-                                    <img src="img/demo/authors/josh.png" alt="" class="img-responsive" width="200">
+                                    
+                                    <img src="<?php show_avatar($user['id']); ?>" alt="" class="img-responsive" width="200">
                                 </div>
 
                                 <div class="form-group">
                                     <label class="form-label" for="example-fileinput">Выберите аватар</label>
-                                    <input type="file" id="example-fileinput" class="form-control-file">
+                                    <input name="avatar" type="file" id="example-fileinput" class="form-control-file">
                                 </div>
 
 

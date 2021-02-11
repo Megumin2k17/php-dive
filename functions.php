@@ -4,6 +4,26 @@ const IS_ADMIN = "2";
 const IS_CASUAL = "0";
 $active_user = $_SESSION['user'];
 
+function show_avatar($user_id) {
+
+	$avatar = get_user_avatar($user_id);
+
+	if(!isset($avatar) || !file_exists($avatar)) {
+		echo "img/demo/avatars/avatar-m.png";
+	} else {
+		echo $avatar;
+	}
+}
+
+function get_user_avatar($user_id) {
+	$db = new PDO("mysql:host=localhost; dbname=dive_project", "mad", "");
+
+	$query = "SELECT avatar FROM users WHERE id=:id";
+	$statement = $db->prepare($query);
+	$statement->execute(['id'=> $user_id]);
+	return $result = $statement->fetchColumn();
+}
+
 function show_status($status) {
 	if($status==="Онлайн") {
 		echo "status status-success mr-3";
@@ -63,60 +83,54 @@ function set_status($user_id, $status) {
 }
 
 function str_random() {
-	return md5(date('Y-m-d'));
+	return md5(uniqid());
 }
 
 function create_uniq_file_name($filename) {
 
-	$demo = explode('.', $_FILES["avatar"]["name"]);
+	$demo = explode('.', $filename);
 	return $uniq_file_name = str_random() . '.' . array_pop($demo);
 }
 
 
 function delete_user_avatar($user_id) {
-	$db = new PDO("mysql:host=localhost; dbname=dive_project", "mad", "");
-
-	$query = "SELECT avatar FROM users WHERE id=:id";
-	$statement = $db->prepare($query);
-	$statement->execute(['id'=> $user_id]);
-	$avatar = $statement->fetch(PDO::FETCH_ASSOC);
 	
-	if (!isset($avatar)) {
-		if(file_exists($avatar)) {
-			unlink($avatar);
-		}	
-	}	
+	$avatar = get_user_avatar($user_id);
+	
+	if (isset($avatar) && file_exists($avatar)) {		
+		unlink($avatar);
+	}
 
+	$db = new PDO("mysql:host=localhost; dbname=dive_project", "mad", "");
 	$query = "UPDATE users SET avatar=NULL WHERE id=:id";
 	$statement = $db->prepare($query);
 	$statement->execute(['id'=> $user_id]);
 }
 
-
-function upload_avatar($user_id, $avatar) {
-
-	$target_dir = "avatars/";
-	$target_file = $target_dir . create_uniq_file_name($avatar["name"]);
+function is_image($target_file) {
 	$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+	return $imageFileType === 'jpg' || $imageFileType ==='png';
+}
+
+
+function upload_image($image, $path) {
 	
-	if($imageFileType === 'jpg' || $imageFileType ==='png') {
-
-		$db = new PDO("mysql:host=localhost; dbname=dive_project", "mad", "");
-
-		$query = "UPDATE users SET avatar=:avatar WHERE id=:id";
-		
-		$statement = $db->prepare($query);
-		$statement->execute(['avatar' => $target_file, 'id'=> $user_id]);
-	} else {
-		set_flash_message('danger', 'Файл должен быть картинкой.');
-		redirect('page_create_user.php');		
-	}
-
-	move_uploaded_file($avatar["tmp_name"], $target_file);
+	move_uploaded_file($image["tmp_name"], $path);
 	
 }
 
+function add_avatar($user_id, $avatar_path) {
+
+	$db = new PDO("mysql:host=localhost; dbname=dive_project", "mad", "");
+
+	$query = "UPDATE users SET avatar=:avatar WHERE id=:id";
+	
+	$statement = $db->prepare($query);
+	$statement->execute(['avatar' => $avatar_path, 'id'=> $user_id]);
+}
+
 function add_social_links($user_id, $vk, $telagram, $instagram) {
+
 	$db = new PDO("mysql:host=localhost; dbname=dive_project", "mad", "");
 
 	$query = "UPDATE users SET vk=:vk, telegram=:telegram, instagram=:instagram WHERE id=:id";
@@ -148,7 +162,11 @@ function get_user_by_id($id) {
 }
 
 function set_flash_message($name, $message) {
-	$_SESSION['messages'] = [$name => $message];
+	if(!isset($_SESSION['messages'])) {
+		$_SESSION['messages']=[];
+	}
+
+	$_SESSION['messages'] += [$name => $message];
 }
 
 // function display_flash_message($name) {	
@@ -158,9 +176,9 @@ function set_flash_message($name, $message) {
 
 function display_flash_messages() {	
 	foreach ($_SESSION['messages'] as $name => $message) {
-		echo "<div class='alert alert-" . $name . " text-dark' role='alert'>" . $_SESSION['messages'][$name] . "</div>";
-		unset($_SESSION['messages'][$name]);
+		echo "<div class='alert alert-" . $name . " text-dark' role='alert'>" . $_SESSION['messages'][$name] . "</div>";		
 	}
+	unset($_SESSION['messages']);
 }
 
 

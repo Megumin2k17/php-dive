@@ -25,17 +25,42 @@ if(get_user_by_email($email)) {
 	exit;
 }
 
+if (empty($email) || empty($password)) {
+	set_flash_message('danger', 'Поля email и пароль должны быть заполнены.');
+	redirect('page_create_user.php');
+	exit;
+}
+
 $user_id = add_user($email, $password);
+set_flash_message('success', 'Новый профиль был успешно создан.');
 
 edit_user_info($user_id, $name, $job, $phone, $address);
 
 set_status($user_id, $status);
 
+
+$avatars_storage = "avatars/";
+$avatar_path = $avatars_storage . create_uniq_file_name($avatar["name"]);
+
+if(!is_image($avatar_path)) {
+	
+	set_flash_message('danger', 'Аватар не был добавлен, т.к. файл должен быть картинкой.');
+	
+	redirect('users.php');
+	exit;
+}
+
+upload_image($avatar, $avatar_path);
+
+add_avatar($user_id, $avatar_path);
+
+
+
 upload_avatar($user_id, $avatar);
 
 add_social_links($user_id, $vk, $telagram, $instagram);
 
-set_flash_message('success', 'пользователь успешно добавлен.');
+set_flash_message('success', 'Данные пользователя были успешно добавлены.');
 redirect('users.php');
 exit;
 
