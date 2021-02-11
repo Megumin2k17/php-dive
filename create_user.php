@@ -54,10 +54,6 @@ upload_image($avatar, $avatar_path);
 
 add_avatar($user_id, $avatar_path);
 
-
-
-upload_avatar($user_id, $avatar);
-
 add_social_links($user_id, $vk, $telagram, $instagram);
 
 set_flash_message('success', 'Данные пользователя были успешно добавлены.');

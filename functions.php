@@ -4,6 +4,18 @@ const IS_ADMIN = "2";
 const IS_CASUAL = "0";
 $active_user = $_SESSION['user'];
 
+function logout() {
+	unset($_SESSION['user']);
+}
+
+function delete_user($user_id) {
+	$db = new PDO("mysql:host=localhost; dbname=dive_project", "mad", "");
+
+	$query = "DELETE FROM users WHERE id=:id";
+	$statement = $db->prepare($query);
+	$statement->execute(['id'=> $user_id]);	
+}
+
 function show_avatar($user_id) {
 
 	$avatar = get_user_avatar($user_id);
